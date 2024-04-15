@@ -1,0 +1,30 @@
+image:
+  name: alpine/git:latest
+  entrypoint: [""]
+
+
+stages:
+  - quality_checks
+
+
+check_merge_conflict_presence:
+  stage: quality_checks
+  script:
+    - |
+      # Finding Files with merge conflicts
+
+      color_echo() {
+        local color="$1"
+        shift
+        echo -e "\e[${color}m$@\e[0m"
+      }
+
+      offending_files=$(git grep -I --name-only '<<<<<<<' -- ':!*.gitlab-ci.yml' || true)
+
+      if [ -n "$offending_files" ]; then
+        color_echo "31;1" "Error: Merge conflict found in the following files:"
+        color_echo "31" "$offending_files"
+        exit 1
+      else
+        color_echo "32;1" "No merge conflicts found!"
+      fi
