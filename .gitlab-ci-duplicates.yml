@@ -20,7 +20,7 @@ find_duplicate_files:
         echo -e "\e[${color}m$@\e[0m"
       }
 
-      duplicates=$(git ls-tree -r HEAD | grep -v -e '[File/Path/To/Ignore]' -e '[Another/File/Path/To/Ignore]' | cut -c 13- | sort | awk '{ id=substr($0, 1, 40); if (id == prev_id) print prev_line; if (id == prev_id) print $0; prev_line=$0; prev_id=id; }' | uniq | awk 'BEGIN { prev_id="" } { current_id=substr($0, 1, 40); if (current_id != prev_id && prev_id != "") print " "; print $0; prev_id=current_id }')
+      duplicates=$(git ls-tree -r HEAD | grep -v -e '[Directory/Path/To/Ignore]' -e '[File/Path/To/Ignore.txt]' | cut -c 13- | sort | awk '{ id=substr($0, 1, 40); if (id == prev_id) print prev_line; if (id == prev_id) print $0; prev_line=$0; prev_id=id; }' | uniq | awk 'BEGIN { prev_id="" } { current_id=substr($0, 1, 40); if (current_id != prev_id && prev_id != "") print " "; print $0; prev_id=current_id }')
 
       if [ -n "$duplicates" ]; then
         color_echo "31;1" "Warning: Duplicate files found:"
