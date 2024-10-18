@@ -1,7 +1,7 @@
 # gitlab-ci
 Collection of generic useful gitlab-ci stages
 
-Uses `alpine/git:latest` container. 
+Tested with `alpine/git:latest` container. 
 
 * .gitlab-ci-conflicts.yml
   * Really just checking for `<<<<<<<` in any of the files.
